@@ -8,7 +8,6 @@ import Footer from './components/layout/Footer.vue'
 <template>
   <div class="min-h-screen flex flex-col">
     <Header />
-    <a class="btn-primary"> BTN</a>
     <div class="flex-grow">
       <Body />
     </div>
@@ -16,6 +15,4 @@ import Footer from './components/layout/Footer.vue'
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

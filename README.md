@@ -8,5 +8,22 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 ```
 npm create vite@latest pedido -- --template vue
 ```
-# Run
+
+# Run dev
+```
 npm run dev -- --host 0.0.0.0
+```
+
+# Docker
+## Build
+```
+docker build -t order-assistant .
+```
+## Run
+```
+docker run -p 8080:80 order-assistant
+```
+
+## Demo
+
+[Click Here](https://orderassistant.hanauerlabs.com.br/)
