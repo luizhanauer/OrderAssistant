@@ -1,51 +1,43 @@
 <template>
-  <div class="flex flex-wrap justify-center">
-    <card v-for="product in products" :key="product.id" :id="product.id" :name="product.name" :price="product.price"
-      :quantity="product.quantity" :image="product.image" @increment="increment" @decrement="decrement"
-      @add-to-cart="addToCart"></card>
-  </div>
+    <div class="flex flex-wrap justify-center">
+        {{ store }}
+        <ul>
+            <li v-for="category in store.data">
+                {{ category.nome }}
+                <ul>
+                    <li v-for="produto in category.produto">
+                        {{ produto.nome }} -
+                        {{ produto.descrição }} -
+                        {{ produto.preço }}
+                        <Card :produto="produto" :name="produto.nome" :price="produto.preço" :quantity="0" :image="imgTemp" />
+                        <ul>
+                            <li v-for="adicional in produto.adicionais">
+                                {{ adicional.nome }} -
+                                {{ adicional.preço }}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+      </div>
 </template>
 
-<script>
-import Card from '../Card.vue';
-export default {
-  components: {
-    Card,
-  },
-  data() {
-    return {
-      products: [
-        { id: 1, name: 'Produto 1', price: 10, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 1 },
-        { id: 2, name: 'Produto 2', price: 20, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 3, name: 'Produto 3', price: 30, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 4, name: 'Produto 4', price: 40, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 5, name: 'Produto 5', price: 50, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 6, name: 'Produto 6', price: 60, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 7, name: 'Produto 7', price: 70, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 8, name: 'Produto 8', price: 80, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 9, name: 'Produto 9', price: 90, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 },
-        { id: 10, name: 'Produto 10', price: 100, image: 'https://raw.githubusercontent.com/luizhanauer/OrderAssistant/refs/heads/main/src/assets/product.jpg', quantity: 0 }
-      ]
-    };
-  },
-  methods: {
-    increment(id) {
-      const product = this.products.find(p => p.id === id);
-      if (product) {
-        product.quantity++;
-      }
-    },
-    decrement(id) {
-      const product = this.products.find(p => p.id === id);
-      if (product && product.quantity > 0) {
-        product.quantity--;
-      }
-    },
-    addToCart(id) {
-      console.log('Produto adicionado ao carrinho:', product);
-    },
-  },
-};
+<script setup>
+import { onMounted, ref } from 'vue'
+import { useProductStore } from '/src/stores/ProductStore'
+import Card from '../Card.vue'
+
+const store = useProductStore()
+const imgTemp = "https://picsum.photos/200"
+
+onMounted(() => {
+  store.loadProducts()
+})
+
+
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+
+</style>
